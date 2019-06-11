@@ -1,2 +1,1 @@
-# micro
-micro
+A micro service demo.

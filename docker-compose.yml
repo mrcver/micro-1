@@ -1,0 +1,50 @@
+version: '3'
+services:
+  consul:
+    image: consul
+    ports:
+      - "8500:8500"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8500"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    restart: always
+    container_name: consul
+  gateway:
+    image: microhq/micro
+    command: api
+    environment:
+      MICRO_API_HANDLER: "rpc"
+      MICRO_API_NAMESPACE: "top.hfjy.service"
+      MICRO_REGISTRY: "consul"
+      MICRO_REGISTRY_ADDRESS: "consul:8500"
+      MICRO_API_ADDRESS: ":8080"
+    ports:
+      - "8080:8080"
+    restart: always
+    container_name: gateway
+    depends_on:
+      - consul
+  dashboard:
+    image: microhq/micro
+    command: web
+    environment:
+      MICRO_REGISTRY: "consul"
+      MICRO_REGISTRY_ADDRESS: "consul:8500"
+      MICRO_WEB_ADDRESS: ":8082"
+    ports:
+      - "8082:8082"
+    restart: always
+    container_name: dashboard
+    depends_on:
+      - consul
+  user-service:
+    image: user-service
+    command: --registry=consul --registry_address=consul:8500
+    environment:
+      MICRO_SERVER_ADDRESS: ":50001"
+    restart: always
+    container_name: user-service
+    depends_on:
+      - consul

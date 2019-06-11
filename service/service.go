@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
-	"github.com/wataly/micro/service/handler"
+	"github.com/wataly/user/handler"
 
-	user "github.com/wataly/micro/proto/user"
+	user "github.com/wataly/user/proto/user"
 )
 
 func main() {

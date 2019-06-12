@@ -2,8 +2,8 @@ A micro service demo.
 
 # Get Start
 
-- [Build image](#Build image)
-- [Run micro service](#Run micro service)
+- [Build image](#build-image)
+- [Run micro service](#run-micro-service)
 
 ## Build image
 
